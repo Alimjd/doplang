@@ -1,0 +1,101 @@
+// TERMINALS THAT ARE NOT DEFINED IN THIS FILE ARE DEFINED IN THE LEXICAL ANALYZER
+
+<program> ::= <statement-list>
+<identifier-list> :== <identifier> 
+		    | <identifier>, <identifier-list>
+<statement-list> ::= <statement> 
+		   | <newline> <statement-list> 
+		   | <statement> <newline> <statement-list>
+
+<statement> ::=   <assignment-statement> 
+		| <expression> 
+		| <structured-block-declaration> 
+		| <return-statement> 
+		| <break-statement>
+<structured-block-declaration> ::= <while-loop> 
+				 | <repeat-loop> 
+				 | <conditional-statement> 
+				 | <function-declaration>
+<assignment-operator> ::= = 
+<assignment-statement> ::= <identifier-list> <assignment-operator> <expression-list>
+
+<expression> ::= <logical-or-expression>
+
+<expression-list> ::= <expression> 
+		    | <expression> , <expression-list>
+
+
+<logical-or-expression> ::= <logical-and-expression>
+			  | <logical-or-expression> or <logical-and-expression>
+
+<logical-and-expression> ::= <logical-equality-expression>
+			   | <logical-and-expression> and <logical-equality-expression>
+
+<logical-equality-expression>::= <logical-ltgt-expression>
+			       | <logical-equality-expression> ==  <logical-ltgt-expression>
+			       | <logical-equality-expression> != <logical-ltgt-expression>
+
+<logical-ltgt-expression> ::= <unary-not>
+		  	    | <logical-ltgt-expression> < <unary-not>
+		  	    | <logical-ltgt-expression> <= <unary-not>
+		  	    | <logical-ltgt-expression> > <unary-not>
+		  	    | <logical-ltgt-expression> >= <unary-not>
+
+<unary-not>::= not <unary-not>
+	     | <addition>
+
+<addition>::= <multiplication>
+	    | <addition> + <multiplication>
+	    | <addition> - <multiplication>
+
+<multiplication> ::= <group>
+		   | <multiplication> * <group>
+		   | <multiplication> / <group>
+
+<group> ::= <primary> 
+	  | ( <expression> )
+
+<primary>::= <integer-literal> 
+	   | <boolean-literal> 
+	   | <string-literal>
+	   | <identifier> 
+	   | <function-call>
+
+<while-loop> ::= while <expression> : { <statement-list> }
+
+<repeat-loop> ::= repeat <expression> times : { <statement-list> }
+
+<conditional-statement> ::= if <expression> : { <statement-list> }
+			  | if <expression> : {<statement-list>} else : { <statement-list> }
+
+<return-statement> ::= return <expression-list> | return
+
+<break-statement> ::= break
+
+<function-call> ::= <identifier>() 
+		  | <identifier> ( <identifier-list> ) 
+		  | <built-in-function-with-variable>
+
+<built-in-function-with-variable> ::= doplang.print(<expression>) 
+				  | <built-in-function> ( )
+
+<built-in-function> ::=   doplang.read_inclination 
+			| doplang.read_altitude 
+			| doplang.read_temperature 
+			| doplang.read_timer 
+			| doplang.read_acceleration 
+			| doplang.turn_camera_on 
+			| doplang.turn_camera_off 
+			| doplang.take_picture 
+			| doplang.connect_to_drone 
+			| doplang.input 
+			| doplang.exit 
+			| doplang.take_off 
+			| doplang.land
+
+<function-declaration> ::=  func <identifier> ( <identifier-list> ) { <statement-list> }
+			  | func <identifier> ( ) { <statement-list> }
+
+
+
+
