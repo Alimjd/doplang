@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+   <TITLE>CS 315: Project 1</TITLE>
+   <META charset="UTF-8"/>
+</HEAD>
+<BODY BGCOLOR=White>
+
+<P><LINK REV=MADE HREF="MAILTO:guvenir@cs.bilkent.edu.tr"><!-- OWNER_INFO="H. Altay Guvenir" --></P>
+<H1><B><FONT COLOR="#000080">CS 315</FONT><BR>
+<FONT COLOR=Red>Project 1</FONT></B></H1>
+
+<P>
+<HR>
+<B>
+Assigned: Oct. 8, 2020<BR>
+<FONT COLOR=RED>Due: Oct. 18, 2020, 23:59</FONT>
+</B>
+
+<H2><FONT COLOR=Blue>A Programming Language for Drones and its Lexical Analyzer</FONT></H2>
+
+<P>
+This semester's projects are about the design of a new language for drones.
+Assume that you are working in the software department of a company that builds drones. 
+The hardware department constructs drones that are equipped with
+<UL>
+<li>a gyroscope that detects the inclination of the drone, a barometer for measuring altitude and a thermometer that measures changes in temperature, an acceleration sensor.
+<li>a video camera that can be turned on and off, or it can be used to take pictures.
+<li>connection to the base computer through wi-fi. The base computer may be a desktop or a mobile device. 
+</UL>
+The programs will be executed on the base computer, which will send the commands to the drone over the wi-fi connection.
+The interface with the hardware is given in the following  
+<A HREF="https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf ">SDK</A>
+Note that this is a real drone available in the market. Instead of the python programming mentioned in the beginning of the User Guide, you will design a new language just for this drone.
+
+<P>Here are some sample videos about programming a drone: <UL>
+<LI><a HREF="https://www.youtube.com/watch?v=1yLYQOSWn9w">https://www.youtube.com/watch?v=1yLYQOSWn9w</A>
+<LI><A HREF="https://www.youtube.com/watch?v=-M7dCeb6fMY">https://www.youtube.com/watch?v=-M7dCeb6fMY</A>
+<LI><A HREF="https://www.youtube.com/watch?v=5NGPrMP1r2Y">https://www.youtube.com/watch?v=5NGPrMP1r2Y</A>
+<LI><A HREF="https://www.youtube.com/watch?v=7XwU9OTXRS0">https://www.youtube.com/watch?v=7XwU9OTXRS0</A>
+<LI><A HREF="https://www.aerial-guide.com/article/program-tello-drone-to-do-backflips-with-scratch">
+https://www.aerial-guide.com/article/program-tello-drone-to-do-backflips-with-scratch</A>
+<LI><A HREF="Tello_sample.png">A sample program in Scratch.</A>
+</UL>
+<P>In this project, you are not asked to design and implement the user interface for a programming tool.
+You are asked to design a simple programming language and its parser only.
+
+<H3>Part A - Language Design (40 points)</H3> 
+
+<P>
+First, you will <B>give a name</B> to your language and design its
+syntax. Note that the best way to hand in your design is its grammar in BNF form, 
+followed by a description of each of your language components. 
+The following is a list of features required in your language:
+
+<ul>
+<LI>variable identifiers
+<LI>assignment operator
+<LI>precedence, associativity of the operators
+<LI>expressions (arithmetic, relational, boolean, their combination)
+<LI>loops 
+<LI>conditional statements
+<LI>statements for input / output 
+<LI>function definitions and function calls.
+<LI>comments
+<LI>primitive functions for <ul>
+<li>reading the inclination of the drone
+<li>reading the altitude
+<li>reading the temperature
+<li>reading the acceleration
+<li>turning on/off video camera
+<li>taking pictures with video camera
+<li>reading current timestamp from timer
+<li>connecting to the base computer through wi-fi
+</ul>
+
+</UL>
+
+<P>All of these features must be built-in your language. Do not assume importing from a library.
+<P>You are encouraged to use your imagination to extend the list given above.
+
+<P>You will have a chance to do minor revisions on your syntax design for 
+Project 2, to be assigned later. 
+Language designs are almost never exactly right in the first iteration. 
+Just try your best to make it as readable/writable/reliable as you
+can and keep your eyes open for what does and what does not work :)
+
+<H3>Part B - Lexical Analysis (30 points)</H3>
+
+<P>In the second part of this project, you will design and implement a lexical analyzer for your language, 
+using the lex tool available on Unix style systems. 
+Your scanner should read its input stream and output a sequence of tokens corresponding to 
+the lexemes defined in your language. 
+Since at this stage you will not be able to connect the output to a parser, 
+your scanner will print the names of the tokens on the screen. 
+For instance, if we were designing a C like syntax, for the input
+<P><code>if ( answer == 2 ) { ...</code>
+<P>the lexical analyzer should produce an output, similar to the following:
+<P>IF LP IDENTIFIER EQUAL_OP NUMBER RP LBRACE ...
+
+<H3>Part C - Example Programs (30 points)</H3>
+
+<P>Finally, you will prepare test programs of your choice that
+exercises all of the language constructs in your language, including
+the ones that you may have defined in addition to the required list given
+above. Be creative, have some fun. 
+Make sure your lex implementation correctly identifies all the tokens.
+The TA will test your lexical analyzer with these example programs 
+along with other programs written in your language. 
+The example programs should be extensive and readable. 
+<P><B>Do not panic!</B> You are not required to write an interpreter
+or compiler for this language. Just write a few programs in the
+language you designed and make sure that the lexical analyzer produces 
+the right sequence of tokens.
+
+<H3>Groups</H3>
+The project can be implemented in groups of two or three students. 
+The members of the groups will be the same for both parts of the project, this and the next.
+The members of a group can be from different sections.
+
+<H3>Submission</H3>
+<UL>
+<LI>There are several parts that you will hand in.
+<OL>
+  <LI>A project report including the following components:
+  <UL>
+    <LI>Name, ID and section for all of the project group members.
+    <LI>The name of your language.
+    <LI>The complete BNF description of your language.
+    <LI>One paragraph explanation for each language construct
+    (i.e. nonterminals) detailing their intended usage and meaning, as
+    well as <B>all of the associated conventions.</B>
+    <LI>Descriptions of how nontrivial tokens (comments, identifiers, literals, reserved words, etc) 
+    are defined in your language. For all of these, explain what your motivations and
+    constraints were and how they relate to various language criteria
+    such as readability, writability, reliability, etc.
+	<LI>Evaluate your language in terms of
+	<ol type="a">
+	<li>Readability
+	<li>Writability
+	<li>Reliability
+	</ol>
+  </UL>
+<LI>The lex description file.</LI>
+<LI>Example programs, written in your language. These example programs should be meaningful.</LI>
+</OL>
+
+<LI>Make sure your lexical analyzer compiles and runs on <code>dijkstra.cs.bilkent.edu.tr</code>.
+The TA will test your project on the dijkstra machine, 
+and any project that does not compile and/or run on this machine will get 0 on Part-B.
+
+<LI>Please upload <B>all of the above items</B> to Moodle before the due date. 
+	PDF format is preferred for the project reports. <EM>Late submissions will be accepted,
+	with 20 points (out of 100) deduction for each extra day.</EM>. 
+	</LI></UL>
+
+<H3>Resources</H3>
+<UL>
+  <LI><A 
+  href="http://www.cs.bilkent.edu.tr/~guvenir/courses/CS315/lex-yacc/linux.html">Running 
+  lex and yacc on Linux systems (accessible in Bilkent Campus)</A> 
+  <LI><A href="http://dinosaur.compilertools.net/">The Lex &amp; Yacc Page (dinosaur.compilertools.net)</A> </LI>
+  <LI><A HREF="https://www.tutorialspoint.com/discrete_mathematics/discrete_mathematics_sets.htm">Discrete Mathematics - Sets</A>
+
+</UL>
+<CENTER><FONT size=+1>Good Luck! - Have fun.</FONT> </CENTER>
+
+<HR>
+</BODY>
+</HTML>
