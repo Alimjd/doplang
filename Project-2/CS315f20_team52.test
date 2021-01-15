@@ -1,0 +1,144 @@
+//Connect to the drone based on user input.
+doplang.print( "Do you want to connect to do the drone? y/n")
+userInputConnection = doplang.input()
+if userInputConnection == "y":{
+    doplang.connect_to_drone()
+    doplang.print( "Do you want to take off? y/n")
+    userInputTakeOff = doplang.input()
+    
+} else : {
+	doplang.print( "Exiting program...")
+    doplang.exit()
+}
+
+func display_inclination_warning() {
+    doplang.print("WARNING: Excessive inclination, the drone may crash.")
+}
+
+// returns the absolute value of the parameter number
+func abs (number) {
+    if number < 0 :{
+        number = -number
+        return number
+    } else : {
+        return number
+    }  
+}
+
+// checks whether the inclinations levels are appropriate according to the parameter acceptableInclication
+func check_inclination( acceptableInclination){
+    currentInclination = doplang.read_inclination()
+
+    if not ( abs( currentInc) < acceptableIncl) : {
+        display_inclination_warning()
+    } else : {
+        if abs (currentInclination * 2) < acceptableInclination : {
+            doplang.print ( "Inclination levels are safe.") 
+        } else : {
+            doplang.print( "Inclination levels are not excessive.")
+        }
+    }
+}
+
+check_inclination( 30)
+
+// takes a photo after waiting for the inputted amount of time
+func take_photo_at_time( time) {
+    var1 = doplang.read_timer()
+    
+    while true: {
+        if (doplang.read_timer() - var1) > time : {
+            doplang.turn_camera_on()
+            doplang.take_picture()
+            doplang.turn_camera_off()
+            return
+        }
+    }
+}
+
+// takes photoNumber many photos, with timeBetweenPhotos seconds between each photo.
+func take_multiple_photos( photoNumber, timeBetweenPhotos) {
+    repeat photoNumber times: {
+        take_photo_at_time (timeBetween )
+    } 
+}
+
+// take photos according to user input
+doplang.print( "How many photos do you want?")
+photoNum = doplang.input()
+doplang.print( "At which rate do you want to take photos, in seconds?")
+delayBtwnPhotos = doplang.input()
+take_multiple_photos( photoNum, delayBtwnPhotos)
+
+// displays warning message if altitude is too high
+func displayAltitudeWarningMessage(){
+    doplang.print( "Moving at high altitudes!")
+}
+
+// if the user is flying at high altitudes with a fast speed display a warning message.
+while doplang.read_altitude() > 1500: {
+    warningCooldownTime = 3
+    x,y,z = doplang.read_acceleration()
+
+    varTimer = doplang.read_timer()
+    while true : {
+        if (doplang.read_timer() - varTimer) >= warningCooldownTime : {
+            if x > 5 or y > 5 or z > 5: {
+                displayAltitudeWarningMessage() 
+                doplang.print( "Unsafe flying practises! Lower your speed when flying at high altitudes!")
+            } else : {
+                break
+            }
+        }
+    }
+    // Exiting loop using break brings us here
+    doplang.print( "You are flying above 15m, please lower your altitude.")
+}
+
+//  checks whether landing is safe
+func check_landing_is_safe() {
+    safeToLand = false
+    altitudeIsOk = false
+    inclinationIsOk = false
+    accelerationIsOk = false
+
+    if doplang.read_altitude() < 10 : {
+        altitudeIsOk = true
+        xIncl, yIncl, zIncl = doplang.read_inclination()
+        xIncl = abs( xIncl)
+        yIncl = abs( yIncl)
+        zIncl = abs( zIncl)
+
+        if xIncl <= 10 and yIncl <= 10 and zIncl <= 10 : {
+            inclinationIsOk = true
+            xAcceleration, yAcceleration, zAcceleration = doplang.read_acceleration()
+            if abs(xAcceleration) < 1 and abs(yAcceleration) < 1 and abs(zAcceleration) < 1 : {
+                accelerationIsOk = true
+                safeToLand = true
+            } 
+        }
+    }
+    return safeToLand, altitudeIsOk, inclinationIsOk, accelerationIsOk
+}
+
+currentTemperature = doplang.read_temperature()
+
+// if temperature is too high for safe flight, initiate landing
+if currentTemperature > 50 : {
+    doplang.print( "Initiating landing due to very high temperature...")
+    landingPossible, altitudeIsOk, inclinationIs, accelerationIsOk = check_landing_is_safe()
+    if landingPossible : {
+        doplang.print ( "All conditions for landing is met, drone is landing...")
+        doplang.land()
+    } else : {
+        if altitudeIsOk :{
+            if inclinationIsOk :{
+                doplang.print( "Due to high acceleration, the drone cannot safely land right now. Readjust the acceleration and try again.")
+            } else:{
+                doplang.print( "Due to high inclination, drone cannot safely land right now. Readjust the inclination and try again.")
+            }
+        } else:{
+            doplang.print( "Due to high altitude, drone cannot safely land right now. Readjust the altitude and try again.")
+        }
+    }
+}
