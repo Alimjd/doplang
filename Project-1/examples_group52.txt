@@ -1,14 +1,7 @@
 // Program 1
 // Simple program that connects to the drone based on user input.
 doplang.print( "Do you want to connect to do the drone? y/n")
-userInputConnection = doplang.input()
-if userInputConnection == "y":{
-    doplang.connect_to_drone()
-    doplang.print( "Do you want to take off? y/n")
-    userInputTakeOff = doplang.input()
-    if userInputTakeOff != "n" : {
-        doplang.take_off()
-    }
+userInputConnection = doplang.inpu
 }
 else {
 	doplang.print( "Exiting program...")
